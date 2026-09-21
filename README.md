@@ -42,7 +42,7 @@ BLOG_PREVIEW=1 pnpm dev
 1. 在 GitHub 新建公开仓库 `weekly-blog`。
 2. 把本项目上传到仓库的 `main` 分支。
 3. 创建 `gh-pages` 分支，并在仓库 Settings → Pages 中选择该分支的根目录。
-4. 创建仅授权该仓库、权限为 `Contents: Read and write` 的 fine-grained token。
-5. 在 Obsidian 设置 → 博客发布中临时填写 token。插件会在本机生成静态网页，并直接更新 `gh-pages` 分支。
+4. 首次发布前，通过 Git Credential Manager 登录 GitHub；登录信息会安全保存在系统钥匙串中。
+5. 在 Obsidian 设置 → 博客发布中确认项目、Node 和 Git 路径，之后直接点击“立即同步”。只有系统凭据不可用时，才需要临时填写仅授权该仓库、权限为 `Contents: Read and write` 的 fine-grained token。
 
 网站地址将是 `https://darknight-create.github.io/weekly-blog/`。日后可免费继续使用这个地址，也可以另购独立域名。

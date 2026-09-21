@@ -1,0 +1,14 @@
+---
+import { dateLabel, postHref, type Post } from '../lib/posts';
+const { posts } = Astro.props as { posts: Post[] };
+---
+<div class="post-list">
+  {posts.map(post => <article class:list={['post-row', { 'has-cover': post.cover }] }>
+    <time datetime={post.date}>{dateLabel(post.date)}</time>
+    <div><div class="post-meta">{post.example ? '排版示例' : post.tags.join(' / ') || '随笔'}</div>
+    <h2><a href={postHref(post)}>{post.title}</a></h2>
+    <p>{post.description}</p></div>
+    {post.cover && <a class="post-cover" href={postHref(post)} tabindex="-1" aria-hidden="true"><img src={post.cover} alt="" loading="lazy" decoding="async" /></a>}
+    <a class="read-link" href={postHref(post)} aria-label={`阅读：${post.title}`}>↗</a>
+  </article>)}
+</div>

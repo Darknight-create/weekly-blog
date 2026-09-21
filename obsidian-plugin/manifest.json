@@ -1,0 +1,9 @@
+{
+  "id": "weekly-blog-publisher",
+  "name": "博客发布",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "将 Weekly 中标记为 publish 的文章和图片发布到 GitHub Pages。",
+  "author": "Darknight",
+  "isDesktopOnly": true
+}

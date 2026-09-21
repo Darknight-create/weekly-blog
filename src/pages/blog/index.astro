@@ -1,0 +1,6 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostList from '../../components/PostList.astro';
+import { posts } from '../../lib/posts';
+---
+<Layout title="文章"><header class="page-heading"><p class="eyebrow">文章</p><h1>慢慢写，慢慢读。</h1><p>共 {posts.length} 篇文字</p></header><PostList posts={posts} />{!posts.length && <p class="empty">第一篇文章，正在路上。</p>}</Layout>

@@ -1,0 +1,13 @@
+---
+import { dateLabel, postHref, type Post } from '../lib/posts';
+const { post } = Astro.props as { post: Post };
+---
+<article class:list={['featured-post', { 'featured-post--plain': !post.cover }] }>
+  {post.cover && <a class="featured-cover" href={postHref(post)} tabindex="-1" aria-hidden="true"><img src={post.cover} alt="" /></a>}
+  <div class="featured-copy">
+    <p class="post-meta">最近更新 / {dateLabel(post.date)}</p>
+    <h2><a href={postHref(post)}>{post.title}</a></h2>
+    <p>{post.description}</p>
+    <a class="text-link" href={postHref(post)}>继续阅读 <span aria-hidden="true">↗</span></a>
+  </div>
+</article>

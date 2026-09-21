@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { posts, postHref } from '../lib/posts';
+const years = [...new Set(posts.map(p => p.date.slice(0, 4)))];
+---
+<Layout title="归档"><header class="page-heading"><p class="eyebrow">归档</p><h1>时间留下的页码。</h1><p>按年份，翻一翻过去的文字。</p></header>
+  <div class="archive">{years.map(year => <section><h2>{year}</h2><ul>{posts.filter(p => p.date.startsWith(year)).map(post => <li><time datetime={post.date}>{post.date.slice(5).replace('-', '.')}</time><a href={postHref(post)}>{post.title}</a></li>)}</ul></section>)}</div>
+  {!posts.length && <p class="empty">发表第一篇文章后，这里会自动出现归档。</p>}
+</Layout>

@@ -1,0 +1,6 @@
+---
+import Layout from '../layouts/Layout.astro';
+import config from '../../site.config.json';
+import { href } from '../lib/posts';
+---
+<Layout title="关于"><header class="page-heading"><p class="eyebrow">关于</p><h1>你好，欢迎来坐坐。</h1></header><div class="prose about"><p>{config.about}</p><p>如果愿意，可以通过 <a href={href('rss.xml')}>RSS 订阅</a>，在有新文章时再见。</p></div></Layout>

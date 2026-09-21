@@ -4,10 +4,28 @@ import crypto from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { syncContent, projectRoot } from './sync.mjs';
 
-const token = process.env.BLOG_GITHUB_TOKEN;
-if (!token) { console.error('请在 Obsidian 的「博客发布」设置中填写 GitHub token，再发布。'); process.exit(1); }
 const config = JSON.parse(await fs.readFile(path.join(projectRoot, 'sync.local.json'), 'utf8'));
 if (!/^[\w.-]+\/[\w.-]+$/.test(config.repository || '')) throw new Error('repository 必须是 owner/repo。');
+async function tokenFromCredentialManager() {
+  const git = process.env.BLOG_GIT_EXECUTABLE || config.git;
+  if (!git) return '';
+  return new Promise((resolve, reject) => {
+    const child = spawn(git, ['credential', 'fill'], { cwd: projectRoot, stdio: ['pipe', 'pipe', 'pipe'] });
+    let stdout = '';
+    let stderr = '';
+    child.stdout.on('data', chunk => { stdout += chunk; });
+    child.stderr.on('data', chunk => { stderr += chunk; });
+    child.once('error', reject);
+    child.once('exit', code => {
+      if (code !== 0) return reject(new Error(stderr.trim() || '无法从系统凭据管理器读取 GitHub 登录。'));
+      resolve(stdout.match(/^password=(.+)$/m)?.[1]?.trim() || '');
+    });
+    child.stdin.end('protocol=https\nhost=github.com\n\n');
+  });
+}
+let token = process.env.BLOG_GITHUB_TOKEN?.trim() || '';
+if (!token) token = await tokenFromCredentialManager();
+if (!token) { console.error('未找到 GitHub 登录。请先用 Git Credential Manager 登录，或在 Obsidian 的「博客发布」设置中临时填写 token。'); process.exit(1); }
 const lockDir = path.join(projectRoot, '.local/publish.lock');
 await fs.mkdir(path.dirname(lockDir), { recursive: true });
 try { await fs.mkdir(lockDir); } catch { console.error('另一个发布任务正在运行。若此前异常退出，可删除项目 .local/publish.lock 空目录后重试。'); process.exit(1); }

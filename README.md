@@ -25,7 +25,7 @@ publish: true
 - `![[图片.png]]`、普通 Markdown 图片和已发布文章间的双链会自动转换。
 - Dataview、Contribution Graph 等 Obsidian 插件代码不会上传到正文。
 
-在 Obsidian 命令面板运行“博客发布：标记当前文章为发布并同步”，即可补齐必要属性并发布。GitHub token 只保存在当次 Obsidian 会话的内存中。
+在 Obsidian 命令面板运行“博客发布：标记当前文章为发布并同步”，即可补齐必要属性并发布。插件会优先读取系统钥匙串里的 GitHub 登录；设置中的临时 token 只作为备用，且不会保存。
 
 ## 本地验证
 
